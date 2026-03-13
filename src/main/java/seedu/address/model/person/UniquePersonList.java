@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Comparator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,6 +96,14 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         internalList.setAll(persons);
+    }
+
+    /**
+     * Sorts the list according to the given {@code comparator}.
+     */
+    public void sort(Comparator<Person> comparator) {
+        requireNonNull(comparator);
+        FXCollections.sort(internalList, comparator);
     }
 
     /**
