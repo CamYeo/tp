@@ -13,7 +13,19 @@ public class HelpCommandTest {
     private Model expectedModel = new ModelManager();
 
     @Test
-    public void execute_help_success() {
+    public void execute_targetCommand_returnsUsageInline() {
+        String target = ListCommand.COMMAND_WORD;
+        String expectedFeedback = "Usage for '" + target + "':\n" + ListCommand.MESSAGE_USAGE;
+
+        CommandResult result = new HelpCommand(target).execute(model);
+
+        assertEquals(expectedFeedback, result.getFeedbackToUser());
+        assertEquals(false, result.isShowHelp()); // inline, no window
+        assertEquals(false, result.isExit());
+    }
+
+    @Test
+    public void execute_noArg_showsHelpWindow() {
         CommandResult expectedCommandResult = new CommandResult(SHOWING_HELP_MESSAGE, true, false);
         assertCommandSuccess(new HelpCommand(), model, expectedCommandResult, expectedModel);
     }
