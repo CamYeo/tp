@@ -71,4 +71,23 @@ public class HelpCommand extends Command {
         String feedback = "Usage for '" + command + "':\n" + usage;
         return new CommandResult(feedback, false, false);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof HelpCommand)) {
+            return false;
+        }
+
+        HelpCommand otherCommand = (HelpCommand) other;
+        return targetCommandWord.equals(otherCommand.targetCommandWord);
+    }
+
+    @Override
+    public int hashCode() {
+        return targetCommandWord.hashCode();
+    }
 }

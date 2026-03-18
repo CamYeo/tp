@@ -89,7 +89,7 @@ public class HelpWindow extends UiPart<Stage> {
         getRoot().requestFocus();
     }
 
-        /**
+    /**
      * Replaces the help window message contents with the given text.
      */
     public void setMessage(String message) {
