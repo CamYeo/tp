@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -22,28 +23,29 @@ public class TagCommand extends Command {
 
     public static final String COMMAND_WORD = "tag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a new tag to the person identified "
-            + "by the index number used in the displayed person list. "
-            + "Existing values will be overwritten by the input values.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Cumulatively adds a new tag to the person identified "
+            + "by the index number used in the displayed person list.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: ... ";
+            + PREFIX_TAG + "TAG\n"
+            + "Example: " + COMMAND_WORD + " 3 " + PREFIX_TAG + "sc";
 
     public static final String MESSAGE_TAG_PERSON_SUCCESS = "Tagged Person: %1$s";
 
+    public static final String MESSAGE_NOT_TAGGED = "At least one tag to add must be provided.";
+
     private final Index index;
-    private final Tag tag;
+    private Set<Tag> tags = Collections.emptySet();
 
     /**
      * @param index of the person in the filtered person list to edit
-     * @param tag tag to add to person
+     * @param tags tag(s) to add to person
      */
-    public TagCommand(Index index, Tag tag) {
+    public TagCommand(Index index, Set<Tag> tags) {
         requireNonNull(index);
-        requireNonNull(tag);
+        requireNonNull(tags);
 
         this.index = index;
-        this.tag = tag;
+        this.tags = tags;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class TagCommand extends Command {
         }
 
         Person personToTag = lastShownList.get(index.getZeroBased());
-        Person taggedPerson = addTagToPerson(personToTag, tag);
+        Person taggedPerson = addTagsToPerson(personToTag, this.tags);
 
         model.setPerson(personToTag, taggedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
@@ -67,16 +69,17 @@ public class TagCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person addTagToPerson(Person personToTag, Tag tag) {
+    private static Person addTagsToPerson(Person personToTag, Set<Tag> tags) {
         assert personToTag != null;
 
         Set<Tag> updatedTags = personToTag.getTags();
-        updatedTags.add(tag);
+        updatedTags.addAll(tags);
 
         return new Person(personToTag.getName(),
                 personToTag.getPhone(),
                 personToTag.getEmail(),
                 personToTag.getAddress(),
+                personToTag.getStudentClass(),
                 updatedTags);
     }
 
@@ -93,14 +96,14 @@ public class TagCommand extends Command {
 
         TagCommand otherTagCommand = (TagCommand) other;
         return index.equals(otherTagCommand.index)
-                && tag.equals(otherTagCommand.tag);
+                && tags.equals(otherTagCommand.tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
-                .add("tag", tag)
+                .add("tag", tags)
                 .toString();
     }
 }
