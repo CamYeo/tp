@@ -32,6 +32,11 @@ public class ExportCommand extends Command {
 
     private final Path csvPath;
 
+    /**
+     * Constructs an ExportCommand with the given CSV file path.
+     *
+     * @param csvPath Path to the CSV file to export to.
+     */
     public ExportCommand(Path csvPath) {
         requireNonNull(csvPath);
         this.csvPath = csvPath;
