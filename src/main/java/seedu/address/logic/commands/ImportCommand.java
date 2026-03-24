@@ -27,18 +27,16 @@ import seedu.address.model.tag.Tag;
  * <p>CSV format per row: name,phone,email,address[,class][,tag1;tag2;...]</p>
  */
 public class ImportCommand extends Command {
-    private static final int MAX_SKIP_DETAILS = 10;
 
     public static final String COMMAND_WORD = "import";
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports persons from a CSV file.\n"
             + "Format: " + COMMAND_WORD + " FILE_PATH\n"
             + "CSV columns: name,phone,email,address[,class][,tag1;tag2;...]\n"
             + "Example: " + COMMAND_WORD + " C:\\\\data\\\\contacts.csv";
-
     public static final String MESSAGE_FILE_ERROR = "Unable to read CSV file: %1$s";
     public static final String MESSAGE_SUCCESS = "Import finished. Imported: %1$d, duplicates skipped: %2$d, "
             + "invalid rows skipped: %3$d.";
+    private static final int MAX_SKIP_DETAILS = 10;
 
     private final Path csvPath;
 
