@@ -23,6 +23,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private ReadOnlyAddressBook previousAddressBook = null;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -134,6 +135,23 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
+
+    @Override
+    public void saveCurrentState() {
+        previousAddressBook = new AddressBook(addressBook);
+    }
+
+    @Override
+    public boolean canUndoAddressBook() {
+        return previousAddressBook != null;
+    }
+
+    @Override
+    public void undoAddressBook() {
+        setAddressBook(previousAddressBook);
+        previousAddressBook = null;
+    }
+
 
     @Override
     public boolean equals(Object other) {
