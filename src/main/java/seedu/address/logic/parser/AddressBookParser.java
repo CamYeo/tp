@@ -21,10 +21,12 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FlagCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SortAddressCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.UnflagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.RemarkCommandParser;
 
 /**
  * Parses user input.
@@ -89,6 +91,9 @@ public class AddressBookParser {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DashboardCommand.MESSAGE_USAGE));
             }
             return new DashboardCommand();
+
+        case RemarkCommand.COMMAND_WORD:
+            return new RemarkCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

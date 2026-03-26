@@ -48,6 +48,10 @@ public class Messages {
             builder.append("; Class: ")
                     .append(person.getStudentClass());
         }
+        if (!person.getRemark().isEmpty()) {
+            builder.append("; Remark: ")
+                    .append(person.getRemark());
+        }
         if (person.getFlag() != null) {
             builder.append("; Flag: ")
                     .append(person.getFlag());

@@ -9,6 +9,7 @@ import seedu.address.model.person.Flag;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.StudentClass;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
@@ -29,6 +30,7 @@ public class PersonBuilder {
     private Address address;
     private StudentClass studentClass;
     private Flag flag;
+    private Remark remark;
     private Set<Tag> tags;
 
     /**
@@ -41,6 +43,7 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         studentClass = null;
         flag = null;
+        remark = Remark.EMPTY;
         tags = new HashSet<>();
     }
 
@@ -54,6 +57,7 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         studentClass = personToCopy.getStudentClass();
         flag = personToCopy.getFlag();
+        remark = personToCopy.getRemark();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -106,6 +110,14 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRemark(String remark) {
+        this.remark = remark != null && !remark.isEmpty() ? new Remark(remark) : Remark.EMPTY;
+        return this;
+    }
+
+    /**
      * Sets the {@code Flag} of the {@code Person} that we are building.
      */
     public PersonBuilder withFlag(String flag) {
@@ -114,7 +126,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, studentClass, flag, tags);
+        return new Person(name, phone, email, address, studentClass, remark, flag, tags);
     }
 
 }
