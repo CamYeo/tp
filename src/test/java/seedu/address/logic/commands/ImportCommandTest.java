@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -152,5 +153,37 @@ public class ImportCommandTest {
         int rowOccurrences = feedback.split("Row ").length - 1;
         assertEquals(10, rowOccurrences);
         assertTrue(Pattern.compile("Row 12 skipped:").matcher(feedback).find() == false);
+    }
+
+    @Test
+    public void execute_malformedFirstRow_headerDetectionFallback() throws Exception {
+        Path csvFile = tempDir.resolve("malformed_first_row.csv");
+        Files.write(csvFile, List.of(
+                "name,12345678,test@gmail.com,\"Blk 357 Ch,3A,friends"
+        ));
+
+        ImportCommand command = new ImportCommand(csvFile);
+        CommandResult result = command.execute(model);
+
+        String feedback = result.getFeedbackToUser();
+        assertTrue(feedback.contains("Import finished. Imported: 0, duplicates skipped: 0, invalid rows skipped: 1."));
+        assertTrue(feedback.contains("Row 1 skipped: Unclosed quotes in CSV line"));
+    }
+
+    @Test
+    public void equalsHashCodeAndToString() {
+        Path pathA = tempDir.resolve("a.csv");
+        Path pathB = tempDir.resolve("b.csv");
+        ImportCommand commandA1 = new ImportCommand(pathA);
+        ImportCommand commandA2 = new ImportCommand(pathA);
+        ImportCommand commandB = new ImportCommand(pathB);
+
+        assertTrue(commandA1.equals(commandA1));
+        assertTrue(commandA1.equals(commandA2));
+        assertTrue(!commandA1.equals(commandB));
+        assertTrue(!commandA1.equals(null));
+        assertTrue(!commandA1.equals("not a command"));
+        assertEquals(Objects.hash(pathA), commandA1.hashCode());
+        assertTrue(commandA1.toString().contains("csvPath=" + pathA));
     }
 }
