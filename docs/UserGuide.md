@@ -276,7 +276,10 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Import** | `import FILE_PATH`<br> e.g., `import C:\data\contacts.csv`
 **Export** | `export FILE_PATH`<br> e.g., `export C:\data\contacts.csv`
+**Remark** | `remark INDEX r/[REMARK]`<br> e.g., `remark 1 r/Allergic to peanuts`
 **Tag** | `tag INDEX t/TAG [t/MORE_TAGS]`<br> e.g., `tag 1 t/exco`
 **List** | `list`
 **Sort** | `sort`
+**Undo** | `undo`
+**Redo** | `redo`
 **Help** | `help`
