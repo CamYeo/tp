@@ -126,7 +126,8 @@ public class ImportCommandTest {
         ImportCommand command = new ImportCommand(csvFile);
         CommandResult result = command.execute(model);
 
-        assertTrue(result.getFeedbackToUser().startsWith("Import finished. Imported: 1, duplicates skipped: 0, invalid rows skipped: 0."));
+        assertTrue(result.getFeedbackToUser()
+                .startsWith("Import finished. Imported: 1, duplicates skipped: 0, invalid rows skipped: 0."));
         assertTrue(model.getFilteredPersonList().stream().anyMatch(p -> p.getName().fullName.equals("Jordan Goh")));
     }
 
