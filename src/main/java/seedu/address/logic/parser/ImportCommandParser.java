@@ -23,5 +23,4 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         Path path = Paths.get(trimmedArgs);
         return new ImportCommand(path);
     }
-
 }

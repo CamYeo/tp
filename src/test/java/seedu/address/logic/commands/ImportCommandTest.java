@@ -152,5 +152,4 @@ public class ImportCommandTest {
         assertEquals(10, rowOccurrences);
         assertTrue(Pattern.compile("Row 12 skipped:").matcher(feedback).find() == false);
     }
-
 }

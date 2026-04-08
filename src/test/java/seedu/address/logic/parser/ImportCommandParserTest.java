@@ -24,5 +24,4 @@ public class ImportCommandParserTest {
                 String.format(seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT,
                         ImportCommand.MESSAGE_USAGE));
     }
-
 }
