@@ -203,11 +203,11 @@ Examples:
 
 Adds one or more specified tags to a given person.
 
-Format: `tag INDEX \t[TAG] [t/MORE_TAGS]…`
+Format: `tag INDEX t/TAG [t/MORE_TAGS]…`
 
 Examples:
-* `tag 2 t\support` Adds the tag `support` to the 2nd person's existing tags.
-* `tag 5 t\exco t\hons` Adds the tags `exco` and `hons` to the 5th person's existing tags.
+* `tag 2 t/support` Adds the tag `support` to the 2nd person's existing tags.
+* `tag 5 t/exco t/hons` Adds the tags `exco` and `hons` to the 5th person's existing tags.
 
 ### Deleting a person : `delete`
 
@@ -280,7 +280,11 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Import** | `import FILE_PATH`<br> e.g., `import C:\data\contacts.csv`
 **Export** | `export FILE_PATH`<br> e.g., `export C:\data\contacts.csv`
+**Remark** | `remark INDEX r/[REMARK]`<br> e.g., `remark 1 r/Allergic to peanuts`
 **Tag** | `tag INDEX t/TAG [t/MORE_TAGS]`<br> e.g., `tag 1 t/exco`
 **List** | `list`
+**Sort** | `sort`
+**Undo** | `undo`
+**Redo** | `redo`
 **Sort** | `sort [address\|name]`<br> e.g., `sort`, `sort name`
 **Help** | `help`
