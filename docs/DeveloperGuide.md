@@ -299,6 +299,38 @@ Both commands are routed in `AddressBookParser` and executed by `LogicManager`, 
 3. Export to an invalid/inaccessible path.
    * Expected: command fails with a file write error message.
 
+### Unified sort feature
+
+#### Implementation
+
+Sorting is implemented using a single command:
+
+* `SortCommand` (command word: `sort`)
+
+`AddressBookParser` parses optional sort arguments and constructs `SortCommand` with a sort field:
+
+* `sort` or `sort address` -> `SortField.ADDRESS`
+* `sort name` -> `SortField.NAME`
+
+`SortCommand` then selects the corresponding comparator and calls `Model#sortPersonList(...)`.
+
+#### Design considerations
+
+* **Single-command design:** using one command with a field parameter avoids duplicate command classes for each sort mode.
+* **Extensibility:** adding future sort fields (e.g. `phone`, `class`) only requires extending the enum/parser branch and comparator mapping.
+* **Backward compatibility:** `sort` continues to work with default address sorting.
+
+#### Manual testing
+
+1. Run `sort`.
+   * Expected: persons are sorted by address.
+2. Run `sort address`.
+   * Expected: same behaviour as `sort`.
+3. Run `sort name`.
+   * Expected: persons are sorted by name.
+4. Run `sort invalidField`.
+   * Expected: invalid command format error with sort usage.
+
 
 --------------------------------------------------------------------------------------------------------------------
 

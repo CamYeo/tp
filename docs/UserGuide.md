@@ -34,7 +34,9 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `clear` : Deletes all contacts.
 
-   * `sort` : Sort all contacts in alphabetical order.
+   * `sort` : Sort all contacts by address (default).
+   
+   * `sort name` : Sort all contacts by name alphabetically.
 
    * `import C:\data\contacts.csv` : Imports contacts from a CSV file.
 
@@ -105,9 +107,11 @@ Format: `list`
 
 ### Sorting all persons : `sort`
 
-Shows a list of all persons in the address book in alphabetical order.
+Shows a list of all persons in the address book sorted by the selected field.
 
-Format: `sort`
+Format: `sort [address|name]`
+* `sort` and `sort address` sort by address alphabetically.
+* `sort name` sorts by name alphabetically.
 
 ### Importing persons from CSV : `import`
 
@@ -278,5 +282,5 @@ Action | Format, Examples
 **Export** | `export FILE_PATH`<br> e.g., `export C:\data\contacts.csv`
 **Tag** | `tag INDEX t/TAG [t/MORE_TAGS]`<br> e.g., `tag 1 t/exco`
 **List** | `list`
-**Sort** | `sort`
+**Sort** | `sort [address\|name]`<br> e.g., `sort`, `sort name`
 **Help** | `help`
