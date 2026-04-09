@@ -559,7 +559,10 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+1. Exiting the app
+
+   1. Type `exit` in the command box and press Enter.<br>
+      Expected: The application closes. The data file `addressbook.json` is saved to disk.
 
 ### Deleting a person
 
@@ -576,7 +579,101 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+### Tagging a person
+
+1. Cumulatively adding tags to an existing person
+
+   1. Prerequisites: List all persons using the `list` command. The 1st person has no existing tags.
+
+   1. Test case: `tag 1 t/friend`<br>
+      Expected: The 1st person now has the tag `friend`. Status message shows the tagged person's details.
+
+   1. Test case: `tag 1 t/colleague t/exco`<br>
+      Expected: The 1st person now has tags `friend`, `colleague`, and `exco` (cumulative — `friend` is preserved).
+
+   1. Test case: `tag 1 t/friend`<br>
+      Expected: No change (the tag set already contains `friend`). Tagged person's details still shown.
+
+   1. Test case: `tag 0 t/friend` and `tag 1`<br>
+      Expected: No tag is added. Error details shown in the status message.
+
+### Adding/clearing a remark
+
+1. Setting and clearing a remark on an existing person
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `remark 1 r/Allergic to peanuts`<br>
+      Expected: The 1st person's remark card now displays "Allergic to peanuts". Status message shows the updated person.
+
+   1. Test case: `remark 1 r/`<br>
+      Expected: The 1st person's remark is cleared (displayed as `-` or empty). Status message confirms the update.
+
+   1. Test case: `remark 0 r/test` and `remark 1` (no `r/` prefix)<br>
+      Expected: No remark is set. Error details shown in the status message.
+
+### Filtering persons by class
+
+1. Filtering the list to show only a specific class
+
+   1. Prerequisites: At least two persons exist with class `3A` and at least one person with a different class.
+
+   1. Test case: `filter c/3A`<br>
+      Expected: Only persons in class `3A` are shown. Status message shows the number of persons listed.
+
+   1. Test case: `filter c/3a`<br>
+      Expected: Same result as `filter c/3A` (case-insensitive matching).
+
+   1. Test case: `filter c/9Z` (a class with no members)<br>
+      Expected: An empty list is displayed. Status message shows `0 persons listed!`.
+
+   1. Test case: `filter` (no class) and `filter c/`<br>
+      Expected: No filtering is applied. Error details shown in the status message.
+
+   1. After any filter, run `list` to restore the full list.
+
+### Exporting contacts to CSV
+
+1. Exporting all persons to a CSV file
+
+   1. Prerequisites: At least one person exists in the address book.
+
+   1. Test case: `export contacts.csv`<br>
+      Expected: A file `contacts.csv` is created in the current working directory. Status message shows `Exported N persons to: contacts.csv`. Open the file to confirm the header row and one row per person.
+
+   1. Test case: `export ./data/backup.csv` (subdirectory that does not exist)<br>
+      Expected: The `data` directory is created and `backup.csv` is written into it. Status message confirms the export.
+
+   1. Test case: `export /root/forbidden.csv` (Linux/macOS) or `export C:\Windows\System32\contacts.csv` (Windows) — a path the app cannot write to<br>
+      Expected: No file is created. Error message indicates the file could not be written.
+
+   1. Test case: `export` (no path)<br>
+      Expected: No file is created. Error details shown in the status message.
+
+### Undoing and redoing a command
+
+1. Undoing the most recent mutating command
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+
+   1. Test case: `delete 1` followed by `undo`<br>
+      Expected: The deleted person is restored. Status message shows `Undo successful!`.
+
+   1. Test case: `add n/Test User p/12345678 e/test@example.com a/123 Test St` followed by `undo`<br>
+      Expected: The newly added person is removed. Status message shows `Undo successful!`.
+
+   1. Test case: `undo` immediately after launching the app (no prior mutating command)<br>
+      Expected: Nothing changes. Error message shows `Nothing to undo!`.
+
+1. Redoing an undone command
+
+   1. Prerequisites: A mutating command was just undone (e.g. `delete 1` then `undo`).
+
+   1. Test case: `redo`<br>
+      Expected: The previously undone change is re-applied. Status message shows `Redo successful!`.
+
+   1. Test case: After `undo`, run any other mutating command (e.g. `add ...`) and then `redo`<br>
+      Expected: Redo fails. Error message shows `Nothing to redo!` (because executing a new mutating command clears the redo state).
 
 ### Saving data
 
