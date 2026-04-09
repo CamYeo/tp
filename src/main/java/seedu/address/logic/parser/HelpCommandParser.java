@@ -36,4 +36,3 @@ public class HelpCommandParser implements Parser<HelpCommand> {
         return new HelpCommand(target);
     }
 }
-

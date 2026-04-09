@@ -26,8 +26,8 @@ public class HelpCommandParserTest {
 
     @Test
     public void parse_validCommandWord_caseInsensitive() throws Exception {
-        HelpCommand command = parser.parse("LiSt");
-        assertEquals(new HelpCommand("list"), command);
+        assertEquals(new HelpCommand("list"), parser.parse("LiSt"));
+        assertEquals(new HelpCommand("list"), parser.parse("LIST"));
     }
 
     @Test

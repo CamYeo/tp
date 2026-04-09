@@ -21,10 +21,11 @@ import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FlagCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
-import seedu.address.logic.commands.SortAddressCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UnflagCommand;
@@ -106,8 +107,18 @@ public class AddressBookParser {
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 
-        case SortAddressCommand.COMMAND_WORD:
-            return new SortAddressCommand();
+        case ImportCommand.COMMAND_WORD:
+            return new ImportCommandParser().parse(arguments);
+
+        case SortCommand.COMMAND_WORD:
+            String sortArguments = arguments.trim();
+            if (sortArguments.isEmpty() || "address".equalsIgnoreCase(sortArguments)) {
+                return new SortCommand(SortCommand.SortField.ADDRESS);
+            } else if ("name".equalsIgnoreCase(sortArguments)) {
+                return new SortCommand(SortCommand.SortField.NAME);
+            } else {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+            }
 
         case TagCommand.COMMAND_WORD:
             return new TagCommandParser().parse(arguments);
