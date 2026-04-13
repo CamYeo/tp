@@ -436,7 +436,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to search for persons by name or tag.
+1.  User requests to search for persons by name.
 2.  AddressBook displays a filtered list of matching persons.
 
     Use case ends.
