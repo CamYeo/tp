@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
@@ -68,6 +69,22 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void execute_helpCommand_doesNotConsumeUndoState() throws Exception {
+        String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
+
+        assertDoesNotThrow(() -> logic.execute("help"));
+        assertDoesNotThrow(() -> logic.execute("find alice"));
+        assertDoesNotThrow(() -> logic.execute("filter c/3A"));
+        assertDoesNotThrow(() -> logic.execute("dashboard"));
+        assertDoesNotThrow(() -> logic.execute("export " + temporaryFolder.resolve("contacts.csv")));
+        assertDoesNotThrow(() -> logic.execute(addCommand));
+        assertDoesNotThrow(() -> logic.execute("undo"));
+        assertDoesNotThrow(() -> logic.execute("redo"));
+        assertDoesNotThrow(() -> logic.execute("exit"));
     }
 
     @Test
